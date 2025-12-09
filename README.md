@@ -68,14 +68,14 @@ os.environ["PYSPARK_DRIVER_PYTHON"] = "C:\Users\<username>\anaconda3\python.exe"
 ```
 
 python script.py
-Enter your query: apple
+Enter your query: worser
 
 ```
 - Boolean query:
 ```
 
-Enter your query: apple AND NOT orange
-Enter your query: fruit OR banana
+Enter your query: mercy AND NOT worser
+Enter your query: mercy OR worser
 
 ```
 - Phrase query is supported by writing terms separated by spaces.
