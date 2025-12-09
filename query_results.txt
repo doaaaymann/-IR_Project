@@ -1,0 +1,54 @@
+Term        tf_raw      tf_weighted idf         tf*idf      normalized  1.txt       6.txt       
+antony      1           1           0.5229      0.5229      0.8666      0.3299      0.6721      
+mercy       1           1           0.3010      0.3010      0.4989      0.1094      0.2228      
+Sum                                                                     0.4393      0.8948      
+Query length: 0.60334
+Similarity per document:
+6.txt        -> 0.8948
+1.txt        -> 0.4393
+Returned docs: 6.txt, 1.txt
+
+Term        tf_raw      tf_weighted idf         tf*idf      normalized  1.txt       2.txt       3.txt       4.txt       5.txt       6.txt       
+antony      1           1           0.5229      0.5229      0.8666      0.3299      0.3541      0.0000      0.0000      0.0000      0.6721      
+mercy       1           1           0.3010      0.3010      0.4989      0.1094      0.0000      0.3010      0.1918      0.2577      0.2228      
+Sum                                                                     0.4393      0.3541      0.3010      0.1918      0.2577      0.8948      
+Query length: 0.60334
+Similarity per document:
+6.txt        -> 0.8948
+1.txt        -> 0.4393
+2.txt        -> 0.3541
+3.txt        -> 0.3010
+5.txt        -> 0.2577
+4.txt        -> 0.1918
+Returned docs: 6.txt, 1.txt, 2.txt, 3.txt, 5.txt, 4.txt
+
+Term        tf_raw      tf_weighted idf         tf*idf      normalized  2.txt       
+antony      1           1           0.5229      0.5229      0.8666      0.3541      
+mercy       1           1           0.3010      0.3010      0.4989      0.0000      
+Sum                                                                     0.3541      
+Query length: 0.60334
+Similarity per document:
+2.txt        -> 0.3541
+Returned docs: 2.txt
+
+Term        tf_raw      tf_weighted idf         tf*idf      normalized  1.txt       10.txt      2.txt       6.txt       7.txt       8.txt       9.txt       
+antony      1           1           0.5229      0.5229      0.8666      0.3299      0.0000      0.3541      0.6721      0.0000      0.0000      0.0000      
+mercy       1           1           0.3010      0.3010      0.4989      0.1094      0.0000      0.0000      0.2228      0.0000      0.0000      0.0000      
+Sum                                                                     0.4393      0.0000      0.3541      0.8948      0.0000      0.0000      0.0000      
+Query length: 0.60334
+Similarity per document:
+6.txt        -> 0.8948
+1.txt        -> 0.4393
+2.txt        -> 0.3541
+10.txt       -> 0.0000
+7.txt        -> 0.0000
+8.txt        -> 0.0000
+9.txt        -> 0.0000
+Returned docs: 6.txt, 1.txt, 2.txt, 10.txt, 7.txt, 8.txt, 9.txt
+
+Term        tf_raw      tf_weighted idf         tf*idf      normalized  
+Sum                                                                     
+Query length: 0.0
+Similarity per document:
+Returned docs: 
+
