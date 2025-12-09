@@ -1,6 +1,7 @@
 import os
-os.environ["PYSPARK_PYTHON"] = "C:\\Users\\doaaa\\anaconda3\\python.exe"
-os.environ["PYSPARK_DRIVER_PYTHON"] = "C:\\Users\\doaaa\\anaconda3\\python.exe"
+os.environ["PYSPARK_PYTHON"] = r"D:\DevTools\Python10\python.exe"
+os.environ["PYSPARK_DRIVER_PYTHON"] = r"D:\DevTools\Python10\python.exe"
+
 
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import explode, split, monotonically_increasing_id, col, regexp_extract
@@ -10,10 +11,11 @@ import re
 spark = SparkSession.builder \
     .appName("PositionalIndex") \
     .master("local[*]") \
-    .config("spark.local.dir", "E:/spark_temp") \
+    .config("spark.local.dir", "D:/spark_temp") \
     .getOrCreate()
 spark.sparkContext.setLogLevel("ERROR")
 
+# Part 1 - Building the Positional Index
 df = spark.read.text("dataset_text_processing/*.txt")
 df = df.withColumn(
     "filename",
@@ -22,8 +24,9 @@ df = df.withColumn(
 df = df.orderBy("filename")
 df.show(truncate=False)
 
+# rdd = [('filename', position, term), ('filename2', position2, term2), ...]
 rdd = df.rdd.flatMap(lambda row: [(row["filename"], idx, word) for idx, word in enumerate(re.findall(r"\w+", row["value"].lower()))])
-
+# result in positional_index: (term, [(doc1, pos1), (doc2, pos2), (doc3, pos1), ...])
 positional_index = (
     rdd.map(lambda x: (x[2], (x[0], x[1])))
        .groupByKey()
@@ -47,15 +50,16 @@ for line in formatted_output_pretty.take(20):
     print(line)
 
 lines = formatted_output_pretty.collect()
-with open("positional_index.txt", "w", encoding="utf-8") as f:
+with open("./results/positional_index.txt", "w", encoding="utf-8") as f:
     for line in lines:
         f.write(line + "\n")
+
 
 # part 2
 import math
 import re
 
-input_file = "positional_index.txt"
+input_file = "./results/positional_index.txt"
 term_docs = {}
 with open(input_file, "r", encoding="utf-8") as f:
     lines = f.readlines()
@@ -117,23 +121,23 @@ def save_ascii_table(filename, header, rows):
         f.write(sep + "\n")
 
 tf_rows_raw = [[term] + [tf_raw_matrix[term][i] for i in range(len(docs))] for term in tf_raw_matrix]
-save_ascii_table("TF_table.txt", ["Term"] + docs, tf_rows_raw)
+save_ascii_table("./results/TF_table.txt", ["Term"] + docs, tf_rows_raw)
 
 tf_rows_weighted = [[term] + [tf_matrix[term][i] for i in range(len(docs))] for term in tf_matrix]
-save_ascii_table("TF_weighted_table.txt", ["Term"] + docs, tf_rows_weighted)
+save_ascii_table("./results/TF_weighted_table.txt", ["Term"] + docs, tf_rows_weighted)
 
 idf_rows = [[term, df, idf[term]] for term, df, idf_value in idf_table]
-save_ascii_table("IDF_table.txt", ["Term", "DF", "IDF"], idf_rows)
+save_ascii_table("./results/IDF_table.txt", ["Term", "DF", "IDF"], idf_rows)
 
 tfidf_rows = [[term] + [round(v, 5) for v in values] for term, values in tfidf_matrix.items()]
-save_ascii_table("TFIDF_table.txt", ["Term"] + docs, tfidf_rows)
+save_ascii_table("./results/TFIDF_table.txt", ["Term"] + docs, tfidf_rows)
 
 doc_lengths = {}
 for i, doc in enumerate(docs):
     length = math.sqrt(sum((tfidf_matrix[term][i])**2 for term in tfidf_matrix))
     doc_lengths[doc] = length
 
-with open("TFIDF_table.txt", "a", encoding="utf-8") as f:
+with open("./results/TFIDF_table.txt", "a", encoding="utf-8") as f:
     f.write("\n")
     for doc, length in doc_lengths.items():
         f.write(f"{doc} length {length}\n")
@@ -150,7 +154,7 @@ for term in tfidf_matrix:
         normalized_tfidf_matrix[term].append(round(normalized_value, 5))
 
 normalized_rows = [[term] + values for term, values in normalized_tfidf_matrix.items()]
-save_ascii_table("Normalized_TFIDF_table.txt", ["Term"] + docs, normalized_rows)
+save_ascii_table("./results/Normalized_TFIDF_table.txt", ["Term"] + docs, normalized_rows)
 
 print("Saved TF, IDF, and TF-IDF tables as ASCII files:")
 print(" - TF_table.txt")
@@ -173,6 +177,7 @@ def words_in_document(term_docs, words, doc):
 def search_query_words(term_docs, docs, query):
     words = re.findall(r"\w+", query.lower())
     words = [w for w in words if w.upper() not in BOOLEAN_OPS]
+    print("AYYYYMMMMAANANNANA:", words)
     matched_docs = set()
     for doc in docs:
         if words_in_document(term_docs, words, doc):
