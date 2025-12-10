@@ -177,7 +177,6 @@ def words_in_document(term_docs, words, doc):
 def search_query_words(term_docs, docs, query):
     words = re.findall(r"\w+", query.lower())
     words = [w for w in words if w.upper() not in BOOLEAN_OPS]
-    print("AYYYYMMMMAANANNANA:", words)
     matched_docs = set()
     for doc in docs:
         if words_in_document(term_docs, words, doc):
